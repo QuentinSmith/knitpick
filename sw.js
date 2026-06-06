@@ -1,7 +1,7 @@
 /* Knitpick service worker — offline-first.
    Precaches the icons + manifest; caches everything else (the page itself,
    Google Fonts, etc.) the first time it's fetched, then serves from cache. */
-const CACHE = "knitpick-v1";
+const CACHE = "knitpick-v2";
 const CORE = ["manifest.json", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
