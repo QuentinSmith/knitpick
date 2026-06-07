@@ -94,7 +94,7 @@
   .stepbtns button{border:none;background:var(--card);color:var(--ink-soft);width:26px;height:18px;cursor:pointer;font-size:11px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center}
   .stepbtns button:hover{background:var(--accent-wash);color:var(--accent)}
   .stepbtns button:first-child{border-bottom:1px solid var(--line)}
-  .est-tag{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--warn-wash);color:var(--warn);font-weight:500;align-self:center}
+  .est-tag{font-size:12px;padding:0 12px;border-radius:14px;background:var(--warn-wash);color:var(--warn);font-weight:600;width:100%;text-align:center;box-sizing:border-box;opacity:0;max-height:0;margin:0;overflow:hidden;transition:opacity .35s ease,max-height .35s ease,margin .3s ease,padding .3s ease}
   .est-tag.measured{background:var(--sage-wash);color:var(--sage)}
   .collapse-btn{display:none}
 
@@ -257,9 +257,7 @@
   body.playful .tabbar .tab.active .ic{transform:translateY(-3px) scale(1.05)}
   .bar-sloth{position:relative;flex:0 0 auto;border:none;background:none;cursor:pointer;padding:0;margin:0 2px;transform:translateY(-12px)}
   .bar-sloth img{width:54px;height:54px;display:block;transform-origin:50% 80%;filter:drop-shadow(0 4px 9px rgba(60,50,35,.22))}
-  .bar-sloth.rock img{animation:rock .5s ease-in-out 2}
-  .bar-sloth::after{content:"";position:absolute;left:50%;top:8px;width:54px;height:54px;border-radius:50%;border:2px solid var(--accent);transform:translate(-50%,0) scale(.4);opacity:0;pointer-events:none}
-  .bar-sloth.spark::after{animation:spark .55s ease-out}
+  .spark-ring{position:absolute;left:50%;top:8px;width:54px;height:54px;border-radius:50%;border:2px solid var(--accent);transform:translate(-50%,0) scale(.4);opacity:0;pointer-events:none;animation:spark .55s ease-out}
   @keyframes spark{0%{opacity:.55;transform:translate(-50%,0) scale(.4)}100%{opacity:0;transform:translate(-50%,0) scale(1.5)}}
   .bar-free{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;white-space:nowrap}
   body.free .tabbar{justify-content:center;gap:14px}
@@ -272,8 +270,38 @@
   .bar-center{display:flex;flex-direction:column;align-items:center;gap:1px}
   .tabbar-slogan{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:11px;color:var(--ink-faint);text-align:center}
   body.playful .bar-sloth img{animation:rock 4.5s ease-in-out infinite}
-  body.playful .bar-sloth.happy img{animation:rock .5s ease-in-out 2}
-  .bar-sloth.happy::after{animation:spark .55s ease-out}
+  body.playful .bar-sloth img.rocking{animation:happyRock 1.2s ease-out}
+  .gauge-compact{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .gauge-top{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px}
+  .gauge-summary{text-align:center}
+  .gauge-yarn{text-align:center;font-family:"Spline Sans Mono",monospace;font-size:13px;color:var(--ink-soft)}
+  .gauge-yarn:empty{display:none}
+  .gauge-toggle-bottom{display:block;margin:8px auto 0;width:fit-content}
+  @keyframes happyRock{0%{transform:rotate(-3deg)}12%{transform:rotate(-12deg)}28%{transform:rotate(9deg)}44%{transform:rotate(-6deg)}60%{transform:rotate(4deg)}76%{transform:rotate(-1deg)}100%{transform:rotate(-3deg)}}
+  .head-toprow{display:flex;justify-content:flex-end;margin-bottom:8px}
+  .gauge-bar{max-width:460px;margin:0 auto}
+  .gauge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;align-items:start}
+  .gauge-summary{font-family:"Spline Sans Mono",monospace;font-size:13px;color:var(--ink-soft)}
+  .gauge-summary>div,.gauge-inputs .gcell{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;text-align:center}
+  .gauge-inputs{margin-top:8px}
+  .gauge-inputs .num{width:48px}
+  .gauge-inputs #needle{width:74px}
+  .detail-meta{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-top:12px}
+  .gauge-toggle-bottom{display:block;margin:8px 0 0;width:fit-content}
+  .unit-toggle{margin-left:0}
+  .gauge-live{display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:6px;font-family:"Spline Sans Mono",monospace;font-size:14px;color:var(--ink-soft)}
+  .gpair{display:inline-flex;align-items:center;gap:5px}
+  .gpair .num{width:60px;-moz-appearance:textfield}
+  .gpair .num::-webkit-outer-spin-button,.gpair .num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .gpair #needle{width:90px}
+  .gauge-meta{display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:13px}
+  .gauge-live .sep,.gauge-meta .sep{color:var(--ink-faint)}
+  .gauge-actions{display:flex;align-items:center;justify-content:flex-start;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:13px}
+  .gauge-actions .sep{color:var(--ink-faint)}
+  .show-est.is-estimate .gpair .num,.show-est.is-estimate .gpair #needle{border-color:var(--warn);background:var(--warn-wash)}
+  #needle{appearance:none;-webkit-appearance:none;background-color:var(--card);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23837a6c' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;padding-right:26px;cursor:pointer}
+  .show-est .est-tag{opacity:1;max-height:44px;margin-top:10px;padding-top:4px;padding-bottom:4px}
+  .gpair .num,.gpair #needle{transition:border-color .3s ease,background .3s ease,box-shadow .15s ease}
 </style>
 </head>
 <body class="playful">
@@ -288,52 +316,24 @@
 </svg>
 <header>
   <div class="head-inner">
-    <div class="brand">
-      <button class="collapse-btn" id="foldBtn">gauge</button>
-    </div>
+    <div class="head-toprow"><div class="unit-toggle" id="unitToggle"><button type="button" data-u="cm">cm</button><button type="button" data-u="in">in</button></div></div>
     <div class="gauge-bar" id="gaugeBar">
-      <div class="gauge-compact">
-        <div class="gauge-summary" id="gaugeSummary"></div>
-        <button class="link-btn" id="gaugeToggle" aria-expanded="false">adjust ▾</button>
-        <div class="unit-toggle" id="unitToggle"><button type="button" data-u="cm">cm</button><button type="button" data-u="in">in</button></div>
+      <div class="gauge-live">
+        <span class="gpair"><input class="num" type="number" inputmode="decimal" id="gSts" value="22" step="0.1"> sts</span>
+        <span class="sep">·</span>
+        <span class="gpair"><input class="num" type="number" inputmode="decimal" id="gRows" value="30" step="0.1"> rows /10cm</span>
+        <span class="sep">·</span>
+        <span class="gpair"><select id="needle"></select> mm</span>
       </div>
-      <div class="gauge-detail" id="gaugeDetail">
-        <div class="detail-controls">
-          <div class="gfield">
-            <label>Your gauge</label>
-            <div class="row">
-              <input class="num" type="number" id="gSts" value="22" step="0.1"><span class="muted">stitches</span>
-              <input class="num" type="number" id="gRows" value="30" step="0.1"><span class="muted">rows / 10cm</span>
-            </div>
-          </div>
-          <div class="gfield" style="display:none">
-            <label>Units</label>
-            <div class="row">
-              <select id="unitSel"><option value="cm">centimetres</option><option value="in">inches</option></select>
-            </div>
-          </div>
-          <div class="gfield">
-            <label>Your needle</label>
-            <div class="row">
-              <div class="stepper">
-                <select id="needle"></select>
-                <div class="stepbtns">
-                  <button id="needleUp" title="up 0.25mm">▲</button>
-                  <button id="needleDown" title="down 0.25mm">▼</button>
-                </div>
-              </div>
-              <span class="muted">mm</span>
-              <span class="est-tag measured" id="estTag">measured</span>
-            </div>
-          </div>
-        </div>
-        <div class="detail-meta">
-          <button class="link-btn full-only" id="quickSaveSetup" title="Save current gauge & needle as a new mechanical setup">+ save mechanical</button>
-          <div class="setup-load full-only">
-            <select id="setupSel" title="Load a saved setup"><option value="">↧ load setup</option></select>
-          </div>
-        </div>
+      <div class="gauge-meta">
+        <span class="est-tag measured" id="estTag">measured</span>
       </div>
+      <div class="gauge-actions full-only">
+        <button class="link-btn" id="quickSaveSetup" title="Save current gauge & needle as a new mechanical setup">+ save mechanical</button>
+        <span class="sep">·</span>
+        <div class="setup-load"><select id="setupSel" title="Load a saved setup"><option value="">↧ load setup</option></select></div>
+      </div>
+      <select id="unitSel" style="display:none"><option value="cm">centimetres</option><option value="in">inches</option></select>
     </div>
   </div>
 </header>
@@ -763,9 +763,6 @@ function refreshUnitUI(){
   var _ge=$("gaugeEq");if(_ge)_ge.textContent=$("gSts").value!==""?`≈ ${s4.toFixed(0)} stitches, ${r4.toFixed(0)} rows / 4 in`:"";
   const opt=$("t5unit")&&$("t5unit").querySelector('option[value="cm"]'); if(opt)opt.textContent=lenUnit;
   if($("easeUnit"))$("easeUnit").textContent=lenUnit;
-  const sum=$("gaugeSummary");
-  if(sum){const tag=gaugeIsEstimate?"estimate":"measured";const mat=activeMatName();
-    sum.innerHTML=`<b>${+$("gSts").value||"?"}</b> sts · <b>${+$("gRows").value||"?"}</b> rows /10cm · <b>${$("needle").value}</b> mm · ${lenUnit} · ${tag}`+(mat?` · 🧶 <b>${esch(mat)}</b>`:"");}
 }
 function setUnit(next){
   if(next===lenUnit)return;
@@ -846,9 +843,11 @@ function yourGauge(){return makeGauge(+$("gSts").value||1,+$("gRows").value||1);
 function fillNeedles(){NEEDLE_SIZES.forEach(mm=>{const o=document.createElement("option");
   o.value=mm;o.textContent=mm.toFixed(2).replace(/\.?0+$/,"");$("needle").appendChild(o);});
   $("needle").value=4;}
-function setEstTag(){const el=$("estTag");
-  if(gaugeIsEstimate){el.textContent="estimate · swatch";el.classList.remove("measured");}
-  else{el.textContent="measured";el.classList.add("measured");}}
+let estReady=false;
+function setEstTag(){const el=$("estTag");const bar=$("gaugeBar");
+  if(gaugeIsEstimate){el.textContent="estimate · swatch to confirm";el.classList.remove("measured");if(bar)bar.classList.add("is-estimate");}
+  else{el.textContent="measured";el.classList.add("measured");if(bar)bar.classList.remove("is-estimate");}
+  if(estReady&&bar){bar.classList.add("show-est");clearTimeout(bar._estT);bar._estT=setTimeout(function(){bar.classList.remove("show-est");},2000);}}
 
 /* when needle changes, estimate gauge from the anchor */
 function applyNeedleEstimate(){
@@ -1389,20 +1388,12 @@ $("quickSaveSetup").addEventListener("click",()=>{
   document.querySelector('.tab[data-tab="setups"]').click();
   addMech(true);
 });
-$("gaugeToggle").addEventListener("click",()=>{
-  const d=$("gaugeDetail"),open=d.classList.toggle("show");
-  $("gaugeToggle").textContent=open?"adjust ▴":"adjust ▾";
-  $("gaugeToggle").setAttribute("aria-expanded",open?"true":"false");
-});
 
 // header gauge
 ["gSts","gRows"].forEach(id=>$(id).addEventListener("input",()=>{
   baseGauge=yourGauge();baseNeedle=+$("needle").value;gaugeIsEstimate=false;setEstTag();markCustom();renderAll();}));
 $("needle").addEventListener("change",applyNeedleEstimate);
-$("needleUp").addEventListener("click",()=>{$("needle").value=nearestNeedle(stepNeedle(+$("needle").value,1));applyNeedleEstimate();});
-$("needleDown").addEventListener("click",()=>{$("needle").value=nearestNeedle(stepNeedle(+$("needle").value,-1));applyNeedleEstimate();});
 function nearestNeedle(mm){return NEEDLE_SIZES.reduce((a,b)=>Math.abs(b-mm)<Math.abs(a-mm)?b:a);}
-$("foldBtn").addEventListener("click",()=>$("gaugeBar").classList.toggle("folded"));
 
 // pattern buttons
 (function(){
@@ -1487,11 +1478,17 @@ var t=document.getElementById("tierTest"); if(t) t.addEventListener("click",func
 
 (function(){
   var sb=document.getElementById("slothBtn");
-  if(sb) sb.addEventListener("click",function(){
-    sb.classList.remove("happy"); void sb.offsetWidth;
-    sb.classList.add("happy");
-    setTimeout(function(){sb.classList.remove("happy");},1000);
-  });
+  if(sb){
+    var simg=sb.querySelector("img"), rocking=false, pending=false;
+    function startRock(){ if(!simg)return; rocking=true; pending=false; simg.classList.remove("rocking"); void simg.offsetWidth; simg.classList.add("rocking"); }
+    if(simg) simg.addEventListener("animationend",function(e){ if(e.animationName!=="happyRock")return; if(pending){startRock();} else {rocking=false; simg.classList.remove("rocking");} });
+    sb.addEventListener("click",function(){
+      var r=document.createElement("span"); r.className="spark-ring"; sb.appendChild(r);
+      r.addEventListener("animationend",function(){r.remove();});
+      setTimeout(function(){if(r.parentNode)r.remove();},800);
+      if(rocking){pending=true;} else {startRock();}
+    });
+  }
   var bu=document.getElementById("barUnlock");
   if(bu) bu.addEventListener("click",function(){tier="full";store.set("regauge_tier","full");applyTier();});
   document.querySelectorAll("#unitToggle button").forEach(function(b){
@@ -1499,6 +1496,7 @@ var t=document.getElementById("tierTest"); if(t) t.addEventListener("click",func
     b.classList.toggle("active", b.dataset.u===lenUnit);
   });
 })();
+estReady=true;
 </script>
 <script>
 if("serviceWorker" in navigator && (location.protocol==="https:"||location.hostname==="localhost")){
