@@ -50,7 +50,7 @@
     mask-image:linear-gradient(to top,#000 0%,#000 6%,transparent 58%);}
   h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;margin:0;letter-spacing:-.01em}
   .mono{font-family:"Spline Sans Mono",ui-monospace,monospace}
-  .wrap{max-width:1280px;margin:0 auto;padding:0 20px calc(92px + env(safe-area-inset-bottom))}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 20px calc(104px + env(safe-area-inset-bottom))}
 
   /* header */
   header{position:sticky;top:0;z-index:30;background:rgba(243,235,221,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
@@ -263,6 +263,17 @@
   @keyframes spark{0%{opacity:.55;transform:translate(-50%,0) scale(.4)}100%{opacity:0;transform:translate(-50%,0) scale(1.5)}}
   .bar-free{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;white-space:nowrap}
   body.free .tabbar{justify-content:center;gap:14px}
+  .unit-toggle{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-left:10px;flex:none}
+  .unit-toggle button{border:none;background:var(--card);color:var(--ink-soft);font-family:"Spline Sans Mono",monospace;font-size:12px;padding:3px 11px;cursor:pointer}
+  .unit-toggle button.active{background:var(--accent);color:#fff}
+  .tabbar{flex-direction:column;justify-content:center;gap:3px}
+  .tabbar-row{display:flex;align-items:center;justify-content:space-around;gap:2px;width:100%}
+  body.free .tabbar-row{justify-content:center}
+  .bar-center{display:flex;flex-direction:column;align-items:center;gap:1px}
+  .tabbar-slogan{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:11px;color:var(--ink-faint);text-align:center}
+  body.playful .bar-sloth img{animation:rock 4.5s ease-in-out infinite}
+  body.playful .bar-sloth.happy img{animation:rock .5s ease-in-out 2}
+  .bar-sloth.happy::after{animation:spark .55s ease-out}
 </style>
 </head>
 <body class="playful">
@@ -278,17 +289,13 @@
 <header>
   <div class="head-inner">
     <div class="brand">
-      <img class="brandicon" id="brandImg" alt="Knitpick logo">
-      <div class="brand-text">
-        <h1>Knitpick<span class="dot">.</span></h1>
-        <div class="slogan">We sweat the small stitches so you don't have to.</div>
-      </div>
       <button class="collapse-btn" id="foldBtn">gauge</button>
     </div>
     <div class="gauge-bar" id="gaugeBar">
       <div class="gauge-compact">
         <div class="gauge-summary" id="gaugeSummary"></div>
         <button class="link-btn" id="gaugeToggle" aria-expanded="false">adjust ▾</button>
+        <div class="unit-toggle" id="unitToggle"><button type="button" data-u="cm">cm</button><button type="button" data-u="in">in</button></div>
       </div>
       <div class="gauge-detail" id="gaugeDetail">
         <div class="detail-controls">
@@ -299,7 +306,7 @@
               <input class="num" type="number" id="gRows" value="30" step="0.1"><span class="muted">rows / 10cm</span>
             </div>
           </div>
-          <div class="gfield">
+          <div class="gfield" style="display:none">
             <label>Units</label>
             <div class="row">
               <select id="unitSel"><option value="cm">centimetres</option><option value="in">inches</option></select>
@@ -321,7 +328,6 @@
           </div>
         </div>
         <div class="detail-meta">
-          <span class="eqv" id="gaugeEq"></span>
           <button class="link-btn full-only" id="quickSaveSetup" title="Save current gauge & needle as a new mechanical setup">+ save mechanical</button>
           <div class="setup-load full-only">
             <select id="setupSel" title="Load a saved setup"><option value="">↧ load setup</option></select>
@@ -559,12 +565,17 @@
   </section>
 </div>
 <nav class="tabbar" id="tabbar">
-  <button class="tab full-only active" data-tab="pattern"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.6 4.6c4.3-.3 8.6-.3 12.9 0 .5 0 .9.4.9.9.3 4.3.3 8.7 0 13 0 .5-.4.9-.9.9-4.3.3-8.6.3-12.9 0-.5 0-.9-.4-.9-.9-.3-4.3-.3-8.7 0-13 0-.5.4-.9.9-.9Z"/><path d="M7.6 9.2c1 1.3 2 1.3 3 0M13.4 9.2c1 1.3 2 1.3 3 0M7.6 14c1 1.3 2 1.3 3 0M13.4 14c1 1.3 2 1.3 3 0"/></svg></span><span class="lbl">Pattern</span></button>
-  <button class="tab full-only" data-tab="tools"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 9.6c4.3-.3 12.5-.3 16.8 0 .5 0 .9.4.9.9.1 1 .1 2.1 0 3.1 0 .5-.4.9-.9.9-4.3.3-12.5.3-16.8 0-.5 0-.9-.4-.9-.9-.1-1-.1-2.1 0-3.1 0-.5.4-.9.9-.9Z"/><path d="M7.4 9.9v2.3M11.2 9.9v3.3M15 9.9v2.3M18.8 9.9v3.3"/></svg></span><span class="lbl">Tools</span></button>
-  <button class="bar-sloth" id="slothBtn" aria-label="Knitpick"><img id="barSloth" alt=""></button>
-  <button class="tab full-only" data-tab="body"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2c1.7-.1 3.1 1.2 3.1 2.9 0 1.7-1.4 3.1-3.1 3.1s-3.1-1.4-3.1-3.1c0-1.6 1.4-2.8 3.1-2.9Z"/><path d="M5.6 20.4c.2-3.7 3-6.6 6.4-6.6s6.2 2.9 6.4 6.6"/></svg></span><span class="lbl">Body</span></button>
-  <button class="tab full-only" data-tab="setups"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 7.4c4.3-.3 10.5-.3 14.8 0M4.6 12c4.3-.3 10.5-.3 14.8 0M4.6 16.6c4.3-.3 10.5-.3 14.8 0"/></svg></span><span class="lbl">Setups</span></button>
-  <div class="bar-free free-only">Free version · <button class="link-btn" id="barUnlock">unlock the full app</button></div>
+  <div class="tabbar-row">
+    <button class="tab full-only active" data-tab="pattern"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.6 4.6c4.3-.3 8.6-.3 12.9 0 .5 0 .9.4.9.9.3 4.3.3 8.7 0 13 0 .5-.4.9-.9.9-4.3.3-8.6.3-12.9 0-.5 0-.9-.4-.9-.9-.3-4.3-.3-8.7 0-13 0-.5.4-.9.9-.9Z"/><path d="M7.6 9.2c1 1.3 2 1.3 3 0M13.4 9.2c1 1.3 2 1.3 3 0M7.6 14c1 1.3 2 1.3 3 0M13.4 14c1 1.3 2 1.3 3 0"/></svg></span><span class="lbl">Pattern</span></button>
+    <button class="tab full-only" data-tab="tools"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 9.6c4.3-.3 12.5-.3 16.8 0 .5 0 .9.4.9.9.1 1 .1 2.1 0 3.1 0 .5-.4.9-.9.9-4.3.3-12.5.3-16.8 0-.5 0-.9-.4-.9-.9-.1-1-.1-2.1 0-3.1 0-.5.4-.9.9-.9Z"/><path d="M7.4 9.9v2.3M11.2 9.9v3.3M15 9.9v2.3M18.8 9.9v3.3"/></svg></span><span class="lbl">Tools</span></button>
+    <div class="bar-center">
+      <button class="bar-sloth" id="slothBtn" aria-label="Knitpick"><img id="barSloth" alt=""></button>
+      <div class="bar-free free-only">Free version · <button class="link-btn" id="barUnlock">unlock the full app</button></div>
+    </div>
+    <button class="tab full-only" data-tab="body"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2c1.7-.1 3.1 1.2 3.1 2.9 0 1.7-1.4 3.1-3.1 3.1s-3.1-1.4-3.1-3.1c0-1.6 1.4-2.8 3.1-2.9Z"/><path d="M5.6 20.4c.2-3.7 3-6.6 6.4-6.6s6.2 2.9 6.4 6.6"/></svg></span><span class="lbl">Body</span></button>
+    <button class="tab full-only" data-tab="setups"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 7.4c4.3-.3 10.5-.3 14.8 0M4.6 12c4.3-.3 10.5-.3 14.8 0M4.6 16.6c4.3-.3 10.5-.3 14.8 0"/></svg></span><span class="lbl">Setups</span></button>
+  </div>
+  <div class="tabbar-slogan">We sweat the small stitches so you don't have to.</div>
 </nav>
 
 <script>
@@ -749,7 +760,7 @@ function refreshUnitUI(){
   document.querySelectorAll(".ul").forEach(s=>s.textContent=lenUnit);
   setEqv("pWidth","pWidthEq");setEqv("pLen","pLenEq");setEqv("t1w","t1wEq");setEqv("t2l","t2lEq");
   const s4=+$("gSts").value*1.016, r4=+$("gRows").value*1.016;
-  $("gaugeEq").textContent=$("gSts").value!==""?`≈ ${s4.toFixed(0)} stitches, ${r4.toFixed(0)} rows / 4 in`:"";
+  var _ge=$("gaugeEq");if(_ge)_ge.textContent=$("gSts").value!==""?`≈ ${s4.toFixed(0)} stitches, ${r4.toFixed(0)} rows / 4 in`:"";
   const opt=$("t5unit")&&$("t5unit").querySelector('option[value="cm"]'); if(opt)opt.textContent=lenUnit;
   if($("easeUnit"))$("easeUnit").textContent=lenUnit;
   const sum=$("gaugeSummary");
@@ -760,7 +771,7 @@ function setUnit(next){
   if(next===lenUnit)return;
   const conv=(lenUnit==="cm"&&next==="in")?(v=>v/INCH):(v=>v*INCH);
   ["pWidth","pLen","t1w","t2l","targetEase","t7sw","t7sh","t8len","t9c","t9e"].forEach(id=>{const el=$(id);if(el&&el.value!=="")el.value=r2(conv(+el.value));});
-  lenUnit=next;store.set("regauge_unit",lenUnit);$("unitSel").value=lenUnit;
+  lenUnit=next;store.set("regauge_unit",lenUnit);$("unitSel").value=lenUnit;document.querySelectorAll("#unitToggle button").forEach(b=>b.classList.toggle("active",b.dataset.u===lenUnit));
   renderBody();refreshUnitUI();if(pattern){readConfirm();runConfirmChecks();}renderAll();
 }
 function markBlanks(){["pSts","pWidth","pCast","pNeedle"].forEach(id=>{const el=$(id);if(el)el.classList.toggle("blank",el.value==="");});}
@@ -1477,12 +1488,16 @@ var t=document.getElementById("tierTest"); if(t) t.addEventListener("click",func
 (function(){
   var sb=document.getElementById("slothBtn");
   if(sb) sb.addEventListener("click",function(){
-    sb.classList.remove("rock","spark"); void sb.offsetWidth;
-    sb.classList.add("rock","spark");
-    setTimeout(function(){sb.classList.remove("rock","spark");},700);
+    sb.classList.remove("happy"); void sb.offsetWidth;
+    sb.classList.add("happy");
+    setTimeout(function(){sb.classList.remove("happy");},1000);
   });
   var bu=document.getElementById("barUnlock");
   if(bu) bu.addEventListener("click",function(){tier="full";store.set("regauge_tier","full");applyTier();});
+  document.querySelectorAll("#unitToggle button").forEach(function(b){
+    b.addEventListener("click",function(){setUnit(b.dataset.u);});
+    b.classList.toggle("active", b.dataset.u===lenUnit);
+  });
 })();
 </script>
 <script>
